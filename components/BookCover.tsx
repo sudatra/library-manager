@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import React from 'react'
+import BookCoverSvg from './BookCoverSVG';
+import BookCoverSVG from './BookCoverSVG';
 
 type BookCoverVariant = 'extraSmall' | 'small' | 'medium' | 'regular' | 'wide';
 
@@ -15,14 +17,14 @@ const variantStyles: Record<BookCoverVariant, string>  ={
 interface BookCoverProps {
   className?: string;
   variant?: BookCoverVariant;
-  coverColor: string;
-  coverImage: string;
+  coverColor?: string;
+  coverImage?: string;
 }
 
 const BookCover = ({ className, variant = 'regular', coverColor = '#012B48', coverImage = 'https://placehold.co/400x600.png' }: BookCoverProps) => {
   return (
     <div className={cn('relative transition-all duration-300', variantStyles[variant], className)}>
-      BOOK SIDE SVG
+      <BookCoverSVG coverColor={coverColor} />
 
       <div 
         className='absolute z-10'

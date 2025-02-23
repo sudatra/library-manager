@@ -13,7 +13,7 @@ const BookOverview = ({
   description, 
   color, 
   cover
-}: BookProps) => {
+}: Book) => {
   return (
     <section className='book-overview'>
       <div className='flex flex-1 flex-col gap-5'>
