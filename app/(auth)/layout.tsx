@@ -5,7 +5,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main className='auth-container'>
       <section className='auth-form'>
-        <div className='auth-box'>
+        <div className='auth-box w-[450px]'>
           <div className='flex flex-row gap-3'>
             <Image 
               src='/icons/logo.svg'

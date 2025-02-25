@@ -76,23 +76,24 @@ const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => voi
         />
 
         <p className='text-base text-light-100'>Upload a file</p>
+        <div className='flex flex-col gap-2 justify-center items-center'>
+          {
+            file && (
+              <p className='upload-filename'>{file.filePath}</p>
+            )
+          }
 
-        {
-          file && (
-            <p className='upload-filename'>{file.filePath}</p>
-          )
-        }
-
-        {
-          file && (
-            <IKImage 
-              path={file.filePath}
-              alt={file.filePath}
-              width={500}
-              height={300}
-            />
-          )
-        }
+          {
+            file && (
+              <IKImage 
+                path={file.filePath}
+                alt={file.filePath}
+                width={500}
+                height={300}
+              />
+            )
+          }
+        </div>
       </button>
     </ImageKitProvider>
   )
