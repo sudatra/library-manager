@@ -12,7 +12,7 @@ const Profile = () => {
           'use server';
           await signOut();
         }}
-        className='mb-10'
+        className='mb-10 absolute right-10 top-10'
       >
         <Button>Logout</Button>
       </form>
