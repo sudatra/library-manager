@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input"
 import Link from 'next/link'
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants'
 import ImageUpload from './ImageUpload'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -33,8 +35,17 @@ const AuthForm = <T extends FieldValues> ({ type, schema, defaultValues, onSubmi
     defaultValues: defaultValues as DefaultValues<T>
   })
 
-  const handleSubmit: SubmitHandler<T> = async (data) => {
+  const router = useRouter();
 
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    const result = await onSubmit(data);
+    if(result.success) {
+      toast(`Successfully Signed ${type === 'SIGN_IN' ? 'in' : 'up'}`);
+      router.push('/');
+    }
+    else {
+      toast(`Unable to Sign ${type === 'SIGN_IN' ? 'in' : 'up'}`, );
+    }
   }
 
   return (
