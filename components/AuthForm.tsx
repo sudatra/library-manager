@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,9 +16,9 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from 'next/link'
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants'
-import ImageUpload from './ImageUpload'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import FileUpload from './FileUpload'
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -72,7 +71,7 @@ const AuthForm = <T extends FieldValues> ({ type, schema, defaultValues, onSubmi
                       {
                         field.name === 'universityCard' ? (
                           <div className=''>
-                            <ImageUpload onFileChange={field.onChange} />
+                            <FileUpload onFileChange={field.onChange} />
                           </div>
                         ) : (
                           <Input 

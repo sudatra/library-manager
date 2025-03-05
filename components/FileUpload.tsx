@@ -24,9 +24,25 @@ const authenticator = async () => {
   }
 }
 
-const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => void }) => {
-  const [file, setFile] = useState<{ filePath: string } | null>(null)
+interface Props {
+  onFileChange: (filePath: string) => void;
+  accept: string;
+  type: 'image' | 'video';
+  placeholder: string;
+  folder: string;
+  variant: 'dark' | 'light';
+}
+
+const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }: Props) => {
+  const [file, setFile] = useState<{ filePath: string } | null>(null);
+  const [progress, setProgress] = useState<number>(0);
   const ikUploadRef = useRef(null);
+
+  const styles = {
+    button: variant === 'dark' ? 'bg-dark-300': 'bg-light-600 border border-gray-100',
+    placeholder: variant === 'dark' ? 'text-light-100': 'text-slate-500',
+    text: variant === 'dark' ? 'text-light-100': 'text-dark-400'
+  }
 
   const uploadFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -41,13 +57,30 @@ const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => voi
     setFile(res);
     onFileChange(res.filePath);
 
-    toast("Image uploaded successfully");
+    toast(`${type} uploaded successfully`);
   };
 
   const onError = (error: any) => {
     console.log(error);
-    toast("Image upload failed. Please try again");
+    toast(`${type} upload failed. Please try again`);
   };
+
+  const onValidate = (file: File) => {
+    if(type === 'image') {
+      if(file.size > 20 * 1024 * 1024) {
+        toast("File size too large");
+        return false;
+      }
+    }
+    else if(type === 'video') {
+      if(file.size > 50 * 1024 * 1024) {
+        toast("File size too large");
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   return (
     <ImageKitProvider
@@ -60,7 +93,15 @@ const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => voi
         ref={ikUploadRef}
         onSuccess={onSuccess}
         onError={onError}
-        fileName='text=upload.png'
+        useUniqueFileName={true}
+        validateFile={onValidate}
+        onUploadStart={() => setProgress(0)}
+        onUploadProgress={({ loaded, total }) => {
+          const percentage = Math.round((loaded / total) * 100);
+          setProgress(percentage)
+        }}
+        folder={folder}
+        accept={accept}
       />
 
       <button 
@@ -100,4 +141,4 @@ const ImageUpload = ({ onFileChange }: { onFileChange: (filePath: string) => voi
   )
 }
 
-export default ImageUpload
+export default FileUpload
