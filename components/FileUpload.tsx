@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
-import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
+import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "imagekitio-next";
 import config from '@/lib/config';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 const authenticator = async () => {
   try {
@@ -105,7 +106,10 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
       />
 
       <button 
-        className='upload-btn bg-dark-300'
+        className={cn(
+          'upload-btn bg-dark-300',
+          styles.button
+        )}
         onClick={(e) => uploadFile(e)}
       >
         <Image 
@@ -116,27 +120,47 @@ const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange }
           className='object-contain'
         />
 
-        <p className='text-base text-light-100'>Upload a file</p>
+        <p className={cn('text-base text-light-100', styles.placeholder)}>{placeholder}</p>
+        {
+          file && (
+            <p className={cn('upload-filename', styles.text)}>{file.filePath}</p>
+          )
+        }
       </button>
-      
-      <div className='flex flex-col gap-2 justify-center items-center'>
-        {
-          file && (
-            <p className='upload-filename'>{file.filePath}</p>
-          )
-        }
 
-        {
-          file && (
-            <IKImage 
-              path={file.filePath}
-              alt={file.filePath}
-              width={500}
-              height={300}
-            />
+      {
+        progress > 0 && progress !== 100 && (
+          <div className='w-full rounded-full bg-green-200'>
+            <div 
+              className='progress'
+              style={{ width: `${progress}%` }}
+            >
+              {progress}%
+            </div>
+          </div>
+        )
+      }
+
+      {
+        file && (
+          (
+            type === 'image' ? (
+              <IKImage 
+                path={file.filePath}
+                alt={file.filePath}
+                width={500}
+                height={300}
+              />
+            ) : type === 'video' ? (
+              <IKVideo 
+                path={file.filePath}
+                controls={true}
+                className='h-96 rounded-xl w-full'
+              />
+            ) : null
           )
-        }
-      </div>
+        )
+      }
     </ImageKitProvider>
   )
 }
