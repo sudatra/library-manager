@@ -7,8 +7,6 @@ import { desc } from 'drizzle-orm';
 import React from 'react'
 
 const Profile = async () => {
-  const latestBooks = (await db.select().from(books).limit(10).orderBy(desc(books.createdAt))) as Book[];
-
   return (
     <>
       <form 
@@ -20,11 +18,6 @@ const Profile = async () => {
       >
         <Button>Logout</Button>
       </form>
-
-      <BookList 
-        title='Borrowed Books'
-        books={latestBooks.slice(1)}
-      />
     </>
   )
 }

@@ -15,6 +15,13 @@
       "when": 1741274346843,
       "tag": "0001_busy_quasar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741417516756,
+      "tag": "0002_thin_starjammers",
+      "breakpoints": true
     }
   ]
 }
